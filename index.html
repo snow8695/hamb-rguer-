@@ -1,0 +1,565 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brasa Burger | Cardápio</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #11100e;
+      --card: #201e1a;
+      --orange: #ff8a24;
+      --text: #fff8ef;
+      --muted: #b8afa4;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      padding: 24px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #33302a;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 900;
+    }
+
+    .logo span {
+      color: var(--orange);
+    }
+
+    header a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .hero {
+      padding: 65px 7%;
+      min-height: 320px;
+      background:
+        linear-gradient(90deg, #11100ef5, #11100e55),
+        url("https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1600&q=85")
+        center 50% / cover;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-content {
+      max-width: 520px;
+    }
+
+    .tag {
+      color: var(--orange);
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 12px;
+    }
+
+    h1 {
+      font-size: clamp(36px, 6vw, 60px);
+      margin: 14px 0;
+    }
+
+    .hero p {
+      color: #ddd4ca;
+      line-height: 1.7;
+    }
+
+    .section {
+      padding: 35px 7%;
+    }
+
+    .section h2 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .categories button {
+      padding: 11px 18px;
+      border-radius: 30px;
+      border: 1px solid #454038;
+      background: transparent;
+      color: white;
+      cursor: pointer;
+    }
+
+    .categories button.active,
+    .categories button:hover {
+      background: var(--orange);
+      color: #1a1008;
+      border-color: var(--orange);
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 22px;
+    }
+
+    .product {
+      background: var(--card);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #35312b;
+      transition: transform .2s;
+    }
+
+    .product:hover {
+      transform: translateY(-4px);
+    }
+
+    .product img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .product-info {
+      padding: 18px;
+    }
+
+    .product h3 {
+      font-size: 19px;
+      margin-bottom: 9px;
+    }
+
+    .description {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      min-height: 42px;
+    }
+
+    .product-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 17px;
+    }
+
+    .price {
+      color: var(--orange);
+      font-size: 20px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .add {
+      background: var(--orange);
+      color: #201208;
+      border: none;
+      border-radius: 9px;
+      padding: 11px 13px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .add:hover {
+      filter: brightness(1.12);
+    }
+
+    .cart {
+      margin: 10px 7% 40px;
+      padding: 24px;
+      background: var(--card);
+      border: 1px solid #39352d;
+      border-radius: 16px;
+    }
+
+    .cart h2 {
+      margin-bottom: 16px;
+    }
+
+    #cart-items {
+      list-style: none;
+    }
+
+    #cart-items li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #39352d;
+    }
+
+    .remove {
+      border: none;
+      background: transparent;
+      color: #ff9c7e;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 20px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .checkout {
+      width: 100%;
+      padding: 15px;
+      background: #25d366;
+      color: #082c16;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .checkout:hover {
+      filter: brightness(1.08);
+    }
+
+    .empty {
+      color: var(--muted);
+      padding: 12px 0;
+    }
+
+    footer {
+      padding: 28px 7%;
+      text-align: center;
+      color: var(--muted);
+      border-top: 1px solid #33302a;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 500px) {
+      header {
+        padding: 20px 5%;
+      }
+
+      .section {
+        padding: 28px 5%;
+      }
+
+      .hero {
+        padding: 45px 5%;
+      }
+
+      .cart {
+        margin: 10px 5% 30px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <a href="#" class="logo">BRASA <span>BURGER.</span></a>
+    <a href="#carrinho">🛒 Meu pedido (<span id="cart-count">0</span>)</a>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <span class="tag">Feito na brasa, feito pra você</span>
+      <h1>Seu próximo burger favorito.</h1>
+      <p>
+        Hambúrguer artesanal, ingredientes selecionados
+        e muito sabor em cada mordida.
+      </p>
+    </div>
+  </section>
+
+  <main class="section">
+    <h2>Nosso cardápio 🍔</h2>
+    <p class="subtitle">Escolha seus favoritos e monte seu pedido.</p>
+
+    <div class="categories">
+      <button class="active" data-category="Todos">Todos</button>
+      <button data-category="Burgers">🍔 Burgers</button>
+      <button data-category="Combos">🍟 Combos</button>
+      <button data-category="Bebidas">🥤 Bebidas</button>
+      <button data-category="Sobremesas">🍰 Sobremesas</button>
+    </div>
+
+    <div class="products" id="products"></div>
+  </main>
+
+  <section class="cart" id="carrinho">
+    <h2>🛒 Seu pedido</h2>
+    <ul id="cart-items"></ul>
+
+    <p class="empty" id="empty-message">
+      Seu carrinho está vazio. Adicione um lanche!
+    </p>
+
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="total">R$ 0,00</span>
+    </div>
+
+    <button class="checkout" id="checkout">
+      Fazer pedido pelo WhatsApp
+    </button>
+  </section>
+
+  <footer>
+    <strong>BRASA BURGER.</strong><br>
+    Sabor de verdade em cada mordida.<br>
+    Horário: consulte nossos horários de atendimento.
+  </footer>
+
+  <script>
+    // PERSONALIZE: coloque o WhatsApp da hamburgueria.
+    // Use DDI + DDD + número, somente dígitos.
+    const WHATSAPP = "5551999999999";
+
+    const products = [
+      {
+        id: 1,
+        name: "Classic Burger",
+        category: "Burgers",
+        price: 24.90,
+        description: "Pão brioche, carne 150g, queijo cheddar e molho da casa.",
+        image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 2,
+        name: "Double Bacon",
+        category: "Burgers",
+        price: 32.90,
+        description: "Dois hambúrgueres, cheddar cremoso, bacon e maionese especial.",
+        image: "https://images.unsplash.com/photo-1553979459-d2229ba7433a?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 3,
+        name: "Smash Burger",
+        category: "Burgers",
+        price: 22.90,
+        description: "Carne smash, queijo, cebola caramelizada e molho especial.",
+        image: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 4,
+        name: "Combo Brasa",
+        category: "Combos",
+        price: 39.90,
+        description: "Classic Burger, batata frita e refrigerante.",
+        image: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 5,
+        name: "Combo Duplo",
+        category: "Combos",
+        price: 54.90,
+        description: "Dois smash burgers, batata frita grande e duas bebidas.",
+        image: "https://images.unsplash.com/photo-1561758033-d89a9ad46330?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 6,
+        name: "Refrigerante",
+        category: "Bebidas",
+        price: 6.00,
+        description: "Lata de refrigerante geladinha.",
+        image: "https://images.unsplash.com/photo-1581636625402-29b2a704ef13?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 7,
+        name: "Milk-shake",
+        category: "Bebidas",
+        price: 14.90,
+        description: "Milk-shake cremoso de chocolate.",
+        image: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=700&q=80"
+      },
+      {
+        id: 8,
+        name: "Brownie",
+        category: "Sobremesas",
+        price: 10.00,
+        description: "Brownie de chocolate para fechar o pedido com chave de ouro.",
+        image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=700&q=80"
+      }
+    ];
+
+    let cart = [];
+    let currentCategory = "Todos";
+
+    const money = value =>
+      value.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+      });
+
+    function renderProducts() {
+      const filtered = currentCategory === "Todos"
+        ? products
+        : products.filter(p => p.category === currentCategory);
+
+      document.getElementById("products").innerHTML =
+        filtered.map(p => `
+          <article class="product">
+            <img
+              src="${p.image}"
+              alt="${p.name}"
+              loading="lazy"
+            >
+            <div class="product-info">
+              <h3>${p.name}</h3>
+              <p class="description">${p.description}</p>
+              <div class="product-bottom">
+                <span class="price">${money(p.price)}</span>
+                <button class="add" data-add="${p.id}">
+                  + Adicionar
+                </button>
+              </div>
+            </div>
+          </article>
+        `).join("");
+    }
+
+    function addToCart(id) {
+      const product = products.find(p => p.id === id);
+      const item = cart.find(i => i.id === id);
+
+      if (item) {
+        item.quantity++;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+
+      renderCart();
+    }
+
+    function changeQuantity(id, amount) {
+      const item = cart.find(i => i.id === id);
+      if (!item) return;
+
+      item.quantity += amount;
+
+      if (item.quantity <= 0) {
+        cart = cart.filter(i => i.id !== id);
+      }
+
+      renderCart();
+    }
+
+    function renderCart() {
+      const list = document.getElementById("cart-items");
+      const count = cart.reduce((sum, i) => sum + i.quantity, 0);
+      const total = cart.reduce(
+        (sum, i) => sum + i.price * i.quantity, 0
+      );
+
+      document.getElementById("cart-count").textContent = count;
+      document.getElementById("total").textContent = money(total);
+      document.getElementById("empty-message").hidden = cart.length > 0;
+
+      list.innerHTML = cart.map(i => `
+        <li>
+          <span>
+            ${i.name} × ${i.quantity}
+            <br>
+            <small>${money(i.price * i.quantity)}</small>
+          </span>
+          <span>
+            <button class="remove" data-change="${i.id}" data-amount="-1">−</button>
+            <button class="remove" data-change="${i.id}" data-amount="1">+</button>
+          </span>
+        </li>
+      `).join("");
+    }
+
+    document.querySelector(".categories").addEventListener("click", e => {
+      const button = e.target.closest("button[data-category]");
+      if (!button) return;
+
+      currentCategory = button.dataset.category;
+
+      document.querySelectorAll(".categories button")
+        .forEach(b => b.classList.toggle("active", b === button));
+
+      renderProducts();
+    });
+
+    document.getElementById("products").addEventListener("click", e => {
+      const button = e.target.closest("button[data-add]");
+      if (button) addToCart(Number(button.dataset.add));
+    });
+
+    document.getElementById("cart-items").addEventListener("click", e => {
+      const button = e.target.closest("button[data-change]");
+      if (button) {
+        changeQuantity(
+          Number(button.dataset.change),
+          Number(button.dataset.amount)
+        );
+      }
+    });
+
+    document.getElementById("checkout").addEventListener("click", () => {
+      if (cart.length === 0) {
+        alert("Adicione pelo menos um produto ao carrinho!");
+        return;
+      }
+
+      if (!/^\d{12,13}$/.test(WHATSAPP)) {
+        alert("Configure o número de WhatsApp da hamburgueria no código.");
+        return;
+      }
+
+      const total = cart.reduce(
+        (sum, i) => sum + i.price * i.quantity, 0
+      );
+
+      const lines = cart.map(i =>
+        `• ${i.name} x${i.quantity} — ${money(i.price * i.quantity)}`
+      );
+
+      const message = [
+        "Olá! Quero fazer um pedido 🍔",
+        "",
+        ...lines,
+        "",
+        `*Total: ${money(total)}*`,
+        "",
+        "Como posso informar meus dados de entrega?"
+      ].join("\n");
+
+      const url =
+        `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`;
+
+      window.open(url, "_blank", "noopener,noreferrer");
+    });
+
+    renderProducts();
+    renderCart();
+  </script>
+
+</body>
+</html>
